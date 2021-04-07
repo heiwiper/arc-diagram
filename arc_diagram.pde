@@ -5,7 +5,7 @@ int[] table;
 
 ArrayList<Node> nodes;
 ArrayList<ArrayList<Node>> history = new ArrayList<ArrayList<Node>>();
-int INDEX = 0;
+int count = 0, INDEX = 0;
 
 String str;
 float strWidth;
@@ -25,6 +25,9 @@ void setup() {
   leftArrow = loadImage("left_arrow.png");
   surface.setTitle("Projet VD");
 
+  nodes = new ArrayList<Node>();
+  fileToNodes();
+  
   //                  .---------------------------------------.
   //------------------| Initialize nodes table using a matrix |-----------------
   //                  '---------------------------------------'
@@ -43,37 +46,37 @@ void setup() {
   //-------------------| Initialize nodes table Node Object |-------------------
   //                   '------------------------------------'
 
-  Node node0 = new Node(0, 0, 6);
-  Node node2 = new Node(2, 1, 6);
-  Node node4 = new Node(4, 2, 6);
-  Node node5 = new Node(5, 3, 6);
-  Node node3 = new Node(3, 4, 6);
-  Node node1 = new Node(1, 5, 6);
-  node0.addNeighbor(node1);
-  node0.addNeighbor(node2);
+  // Node node0 = new Node(0, 0, 6);
+  // Node node2 = new Node(2, 1, 6);
+  // Node node4 = new Node(4, 2, 6);
+  // Node node5 = new Node(5, 3, 6);
+  // Node node3 = new Node(3, 4, 6);
+  // Node node1 = new Node(1, 5, 6);
+  // node0.addNeighbor(node1);
+  // node0.addNeighbor(node2);
 
-  node1.addNeighbor(node0);
-  node1.addNeighbor(node2);
-  node1.addNeighbor(node3);
+  // node1.addNeighbor(node0);
+  // node1.addNeighbor(node2);
+  // node1.addNeighbor(node3);
 
-  node2.addNeighbor(node0);
-  node2.addNeighbor(node1);
-  node2.addNeighbor(node4);
-  node2.addNeighbor(node5);
+  // node2.addNeighbor(node0);
+  // node2.addNeighbor(node1);
+  // node2.addNeighbor(node4);
+  // node2.addNeighbor(node5);
 
-  node3.addNeighbor(node1);
+  // node3.addNeighbor(node1);
 
-  node4.addNeighbor(node2);
+  // node4.addNeighbor(node2);
 
-  node5.addNeighbor(node2);
+  // node5.addNeighbor(node2);
 
-  nodes = new ArrayList<Node>();
-  nodes.add(node0);
-  nodes.add(node2);
-  nodes.add(node4);
-  nodes.add(node5);
-  nodes.add(node3);
-  nodes.add(node1);
+  // nodes = new ArrayList<Node>();
+  // nodes.add(node0);
+  // nodes.add(node2);
+  // nodes.add(node4);
+  // nodes.add(node5);
+  // nodes.add(node3);
+  // nodes.add(node1);
 
   addToHistory();
 
@@ -204,6 +207,49 @@ void addToHistory() {
   for (int i = 0; i<nodes.size(); i++){
     for (Node neighbor : nodes.get(i).getNeighbors()){
       last.get(i).addNeighbor(last.get(neighbor.getIndex()));
+    }
+  }
+}
+
+void fileToNodes() {
+  String[] lines = loadStrings("nodes.txt");
+  // println("there are " + lines.length + " lines");
+  for (int i = 0 ; i < lines.length; i++) {
+    if(!lines[i].isEmpty())
+      count++;
+  }
+  for (int i = 0 ; i < lines.length; i++) {
+    if(!lines[i].isEmpty()) {
+      // println(lines[i].indexOf(':'));
+      
+      String nodeIdStr = lines[i].substring(0, lines[i].indexOf(':'));
+      int nodeId = Integer.parseInt(nodeIdStr);
+      nodes.add(new Node(nodeId, nodes.size(), count));
+    }
+  }
+  for (int i = 0 ; i < lines.length; i++) {
+    if(!lines[i].isEmpty()) {
+      // String nodeIdStr = lines[i].substring(0, lines[i].indexOf(':'));
+      // int nodeId = Integer.parseInt();
+      int lastOcc = lines[i].indexOf(':');
+      int nextOcc = lines[i].indexOf(',', lastOcc);
+      while (nextOcc > lastOcc+1) {
+        String neighborIdStr = lines[i].substring(lastOcc+1, nextOcc);
+        int nodeId = Integer.parseInt(neighborIdStr);
+        for (Node node : nodes){
+          if(node.getId() == nodeId)
+            nodes.get(i).addNeighbor(node);
+        }
+
+        lastOcc = nextOcc;
+        nextOcc = lines[i].indexOf(',', lastOcc+1);
+      }
+      String neighborIdStr = lines[i].substring(lastOcc+1);
+      int nodeId = Integer.parseInt(neighborIdStr);
+      for (Node node : nodes){
+        if(node.getId() == nodeId)
+          nodes.get(i).addNeighbor(node);
+      }
     }
   }
 }
