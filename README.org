@@ -1,0 +1,12 @@
+#+HTML: <p align="center"><img src="./images/preview.png" /></p>
+* Description
+  This Project was carried out for educational purpose, it's main objective is to visualize an arc diagram by reading the nodes links from a text file. After visualizing the diagram, the nodes are then ordered in a way that ensures that the height of the whole diagram is as short as possible.
+* Building
+  Open =arc_diagram.pde= as a [[https://processing.org/][Processing]] sketch and run it.
+* Instructions
+** Defining Nodes file
+   The file =nodes.txt= is written in the following format:
+
+   =<node_id>:<neighbor_node_id1>,<neighbor_node_id2>=
+
+   where =node_id= is the ID of the node to which we want to define its neighbor nodes, and =neighbor_node_idx= is the ID of the neighbor node. When multiple neighbor nodes are defined, they should be separated with commas.

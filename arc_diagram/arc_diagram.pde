@@ -27,7 +27,7 @@ void setup() {
 
   nodes = new ArrayList<Node>();
   fileToNodes();
-  
+
   //                  .---------------------------------------.
   //------------------| Initialize nodes table using a matrix |-----------------
   //                  '---------------------------------------'
@@ -41,7 +41,7 @@ void setup() {
   // int[] tableTemp = {0, 2, 4, 5, 3, 1};
   // table = tableTemp;
   // nodes = matrixToNodes(nodesMatrix, table);
-  
+
   //                   .------------------------------------.
   //-------------------| Initialize nodes table Node Object |-------------------
   //                   '------------------------------------'
@@ -102,7 +102,7 @@ void setup() {
       addToHistory();
     }
   }
-  
+
 }
 void draw(){
   background(0);
@@ -118,12 +118,12 @@ void draw(){
     for (Node neighbor : node.getNeighbors()){
       noFill();
       int distance = (neighbor.getIndex() - node.getIndex()) * step;
-      int centerX = distance/2; 
+      int centerX = distance/2;
       arc(centerX+x, height/2,
           distance, distance,
           PI, 2*PI);
     }
-    
+
     fill(node.getColor());
 
     // Draw nodes
@@ -132,10 +132,10 @@ void draw(){
     // Draw nodes IDs
     str = "v"+node.getId();
     strWidth = textWidth(str);
-    text(str, x - strWidth/2, height/2 + 30); 
+    text(str, x - strWidth/2, height/2 + 30);
     str = String.format("d = %.02f", node.getDistance());
     strWidth = textWidth(str);
-    text(str, x - strWidth/2, height/2 + 60); 
+    text(str, x - strWidth/2, height/2 + 60);
 
     x += step;
   }
@@ -145,7 +145,7 @@ void draw(){
   textSize(32);
   str = String.format("T"+INDEX);
   strWidth = textWidth(str);
-  text(str, width/2 - strWidth/2, height - 125); 
+  text(str, width/2 - strWidth/2, height - 125);
 
   if (INDEX != 0) {
     image(leftArrow, width/2 - strWidth - 50 - leftArrow.width, height - 150);
@@ -161,7 +161,7 @@ boolean sortNodes(ArrayList<Node> nodes) {
 
 
     for(int i = 0; i< nodes.size(); i++)
-    { 
+    {
       for(int j = 0; j< nodes.size()-1; j++)
         {
           if(nodes.get(j+1).distance < nodes.get(j).distance)
@@ -169,7 +169,7 @@ boolean sortNodes(ArrayList<Node> nodes) {
               sorted = false;
               temp = nodes.get(j+1);
               nodes.set(j+1, nodes.get(j));
-              nodes.set(j, temp);  
+              nodes.set(j, temp);
             }
         }
     }
@@ -194,7 +194,7 @@ ArrayList<Node> matrixToNodes(int[][] nodesMatrix, int[] table) {
     }
   }
   return nodes;
-} 
+}
 
 void addToHistory() {
   history.add(new ArrayList<Node>());
@@ -221,7 +221,7 @@ void fileToNodes() {
   for (int i = 0 ; i < lines.length; i++) {
     if(!lines[i].isEmpty()) {
       // println(lines[i].indexOf(':'));
-      
+
       String nodeIdStr = lines[i].substring(0, lines[i].indexOf(':'));
       int nodeId = Integer.parseInt(nodeIdStr);
       nodes.add(new Node(nodeId, nodes.size(), count));
